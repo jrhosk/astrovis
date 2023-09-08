@@ -66,6 +66,3 @@ def map_directory_tree(base_path):
     return _map_directory_tree(base_path, json_object, False, obj)
 
 result = map_directory_tree(base_path='C:\\Users\\oniba\\Development\\Python\\aisubot')
-
-str_result = json.dumps(result, indent=2)
-print(str_result)

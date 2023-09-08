@@ -1,4 +1,5 @@
 import os
+import json
 import binascii
 import requests
 
@@ -12,4 +13,7 @@ print(requested_path)
 
 r = requests.get(requested_path)
 
-print(r.json())
+json_object = r.json()
+
+str_result = json.dumps(json_object, indent=2)
+print(str_result)

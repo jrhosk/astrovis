@@ -15,12 +15,11 @@ async def read_root():
 
 @app.get("/tree/{base_path}")
 async def get_tree(base_path):
-    encoded_bin_path = base_path.encode("utf-8")
-    encoded_base_path = binascii.unhexlify(encoded_bin_path)
+    from tree import map_directory_tree
+
+    encoded_base_path = binascii.unhexlify(base_path)
     decoded_base_path = encoded_base_path.decode("utf-8")
 
-    return {
-      "path": decoded_base_path,
-      "tree": os.listdir(decoded_base_path)
-      }
-    
+    directory_tree = map_directory_tree(base_path=decoded_base_path)
+
+    return directory_tree
