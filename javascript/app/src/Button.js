@@ -5,7 +5,15 @@ import getDirectoryMap from './request.js';
 
 function printTree(){
   console.log("...getting directory");
-  console.log(getDirectoryMap());
+  getDirectoryMap()
+  .then(data => {
+    // Use the JSON data here
+    console.log(JSON.stringify(data[0], undefined, 4));
+  })
+  .catch(error => {
+    // Handle errors here
+    console.error('Failed to fetch JSON data:', error);
+  });
 }
 
 export default function ButtonUsage() {

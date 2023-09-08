@@ -7,6 +7,7 @@ import ButtonUsage from './Button.js';
 function App() {
   return (
     <div className="App">
+      <DirectoryTreeView />
       <ButtonUsage />
     </div>
   );

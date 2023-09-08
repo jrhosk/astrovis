@@ -8,8 +8,8 @@ from fastapi import Request
 from fastapi.middleware.cors import CORSMiddleware
 
 origins = [
-    "http://127.0.0.1:8000/",
-    "http://127.0.0.1:8000/tree/"
+    "localhost:3000",
+    "*"
 ]
 
 
