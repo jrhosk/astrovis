@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 
 import getDirectoryMap from './request.js';
@@ -16,6 +17,52 @@ function printTree(){
   });
 }
 
-export default function ButtonUsage() {
-  return <Button variant="contained" onClick={printTree} >Hello world</Button>;
+
+function ButtonUsage() {
+  return(<>
+    {fetch("http://127.0.0.1:8000/")
+    .then(response=>{
+      return response.json();
+    })
+    .then(data => {
+      //return <Button variant="contained" >{data.Hello}</Button>
+      console.log(data.Hello)
+    })
+  }</>
+  )
 }
+
+
+function HelloButton() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch data from an API
+    fetch("http://127.0.0.1:8000/")
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data); // Update the state with fetched data
+        setLoading(false); // Set loading to false
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        setLoading(false);
+      });
+  }, []); // Empty dependency array means this effect runs once when the component mounts
+
+  return (
+    <div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div>
+          {/* Render the fetched data */}
+          <p>{data.Hello}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default HelloButton;
