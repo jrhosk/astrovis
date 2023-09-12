@@ -57,10 +57,12 @@ def _map_directory_tree(directory_path, directory_object, was_folder, obj):
     return directory_object
 
 def map_directory_tree(base_path):
+    path = os.getcwd()
+    parent = os.path.basename(path)
 
     json_object = {
         "id": "root",
-        "name": "Parent",
+        "name": parent,
         "children": []
     }
 

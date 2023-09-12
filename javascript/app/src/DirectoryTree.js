@@ -4,15 +4,15 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { TreeView } from '@mui/x-tree-view/TreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 
-import encoder from './request.js';
+//import encoder from './request.js';
 
 import './App.css';
 
-const BASE_URL = "http://127.0.0.1:8000/tree/";
-const DIR = "/users/jhoskins/fornax/Development/astrovis/";
+//const BASE_URL = "http://127.0.0.1:8000/tree/";
+//const DIR = "/users/jhoskins/fornax/Development/astrovis/";
 
-const encodedString = encoder(DIR);
-const url = BASE_URL.concat("", encodedString);
+//const encodedString = encoder(DIR);
+//const url = BASE_URL.concat("", encodedString);
 
 export default function DirectoryTreeView() {
   const renderTree = (nodes) => (
@@ -27,9 +27,9 @@ export default function DirectoryTreeView() {
   const [loading, setLoading] = useState(true);
  
   useEffect(() => {
-    console.log(url);
+    console.log();
     // Fetch data from an API
-    fetch(url)
+    fetch("http://127.0.0.1:8000/base/")
        .then(response=>{
         response.json()
         .then(data=>{
@@ -50,7 +50,7 @@ export default function DirectoryTreeView() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className='sidebar'>
+        <div>
           <TreeView
             aria-label="rich object"
             defaultCollapseIcon={<ExpandMoreIcon />}
