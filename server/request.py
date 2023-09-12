@@ -5,6 +5,8 @@ import requests
 
 LOCALHOST = "http://127.0.0.1:8000/tree/"
 base_path = os.getcwd()
+
+print(base_path)
 encoded_path = base_path.encode("utf-8")
 bin_path = binascii.hexlify(encoded_path).decode("utf-8")
 

@@ -33,6 +33,7 @@ async def read_root():
 async def get_tree(base_path):
     from tree import map_directory_tree
 
+    print(base_path)
     encoded_base_path = binascii.unhexlify(base_path)
     decoded_base_path = encoded_base_path.decode("utf-8")
 

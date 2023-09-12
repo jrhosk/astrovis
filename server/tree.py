@@ -4,12 +4,12 @@ import json
 def _map_directory_tree(directory_path, directory_object, was_folder, obj):
     files = os.listdir(directory_path)
 
-    directory_object = directory_object or []
+    #directory_object = directory_object or []
 
     for file in files:
         if obj["depth"] == 0:
-            obj["node"] = "root"
-            obj["depth"] += 1
+            obj["node"] = "0"
+            obj["depth"] = 1
 
         else:
             obj["node"] = str(obj["depth"])
@@ -37,6 +37,7 @@ def _map_directory_tree(directory_path, directory_object, was_folder, obj):
 
             last = len(directory_object) - 1
             directory_object = _map_directory_tree(file_path, directory_object, True, obj)
+
         else:
             path_split = file.split(os.path.sep)
             file_name = path_split[-1]
@@ -57,12 +58,23 @@ def _map_directory_tree(directory_path, directory_object, was_folder, obj):
 
 def map_directory_tree(base_path):
 
-    json_object = []
+    json_object = {
+        "id": "root",
+        "name": "Parent",
+        "children": []
+    }
+
     obj = {
         "node": "",
         "depth": 0
     }
 
-    return _map_directory_tree(base_path, json_object, False, obj)
+    _map_directory_tree(base_path, json_object["children"], False, obj)
 
-#result = map_directory_tree(base_path='C:\\Users\\oniba\\Development\\Python\\aisubot')
+    return json_object
+
+#result = map_directory_tree(base_path='/users/jhoskins/fornax/Development/astrovis/server')
+#import pprint
+
+#pp = pprint.PrettyPrinter(indent=4)
+#pp.pprint(result)

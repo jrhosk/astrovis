@@ -1,10 +1,18 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { TreeView } from '@mui/x-tree-view/TreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 
-import getDirectoryMap from './request.js';
+import encoder from './request.js';
+
+import './App.css';
+
+const BASE_URL = "http://127.0.0.1:8000/tree/";
+const DIR = "/users/jhoskins/fornax/Development/astrovis/";
+
+const encodedString = encoder(DIR);
+const url = BASE_URL.concat("", encodedString);
 
 export default function DirectoryTreeView() {
   const renderTree = (nodes) => (
@@ -14,54 +22,46 @@ export default function DirectoryTreeView() {
         : null}
     </TreeItem>
   );
+    
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+ 
+  useEffect(() => {
+    console.log(url);
+    // Fetch data from an API
+    fetch(url)
+       .then(response=>{
+        response.json()
+        .then(data=>{
+          setData(data); // Update the state with fetched data
+          setLoading(false); // Set loading to false
+          console.log(JSON.stringify(data, undefined, 2));
+        })
+       }).catch((error) => {
+        console.error('Error fetching data:', error);
+        setLoading(false);
+      });
+  }, []); 
 
-  const renderTreeView = (nodes) => {
-    
-    console.log(nodes.id);
-    
-  };
   
-  getDirectoryMap()
-  .then(data => {
-    // Use the JSON data here
-    console.log(JSON.stringify(data, undefined, 4));
-    renderTreeView(data[0]);
-  })
-  .catch(error => {
-    // Handle errors here
-    console.error('Failed to fetch JSON data:', error);
-  });
-
-  const data = {
-    id: 'root',
-    name: 'Parent',
-    children: [
-      {
-        id: '1',
-        name: 'Child - 1',
-      },
-      {
-        id: '3',
-        name: 'Child - 3',
-        children: [
-          {
-            id: '4',
-            name: 'Child - 4',
-          },
-        ],
-      },
-    ],
-  };
 
   return (
-    <TreeView
-      aria-label="rich object"
-      defaultCollapseIcon={<ExpandMoreIcon />}
-      defaultExpanded={['root']}
-      defaultExpandIcon={<ChevronRightIcon />}
-      sx={{ height: 110, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
-    >
-      {renderTree(data)}
-    </TreeView>
+    <div className='sidebar'>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className='sidebar'>
+          <TreeView
+            aria-label="rich object"
+            defaultCollapseIcon={<ExpandMoreIcon />}
+            defaultExpanded={['root']}
+            defaultExpandIcon={<ChevronRightIcon />}
+            sx={{ height: 810, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
+            >
+            {renderTree(data)}
+          </TreeView>  
+        </div>
+      )}
+    </div>
   );
 }

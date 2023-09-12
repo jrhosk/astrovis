@@ -15,7 +15,7 @@ function encoder(directory){
 
  async function getDirectoryMap(){
     const BASE_URL = "http://127.0.0.1:8000/tree/";
-    const DIR = "/home/mystletainn/Development/nrao/astrovis/server";
+    const DIR = "/users/jhoskins/fornax/Development/astrovis/server";
 
     const encodedString = encoder(DIR);
     console.log(encodedString);
@@ -23,7 +23,7 @@ function encoder(directory){
     const url = BASE_URL.concat("", encodedString);
 
     try {
-        const response = await fetch(url);
+        // -- const response = await fetch(url);
          /*
         // Check if the response contains the "Access-Control-Allow-Origin" header
         const accessControl = response.headers.get('Access-Control-Allow-Origin');
@@ -35,16 +35,26 @@ function encoder(directory){
           }
          */
           // Parse the JSON data from the response
-          const jsonData = await response.json();
+          // -- const jsonData = await response.json();
+
+          // -- console.log(JSON.stringify(jsonData, undefined, 2));
     
-          return jsonData;
+          // -- return jsonData;
         //} else {
         //  throw new Error('CORS policy does not allow this request');
        // }
+       fetch(url)
+       .then(response=>{
+        response.json()
+        .then(data=>{
+          console.log(JSON.stringify(data, undefined, 2));
+        })
+       });
+
       } catch (error) {
         console.error('Error:', error);
         throw error;
       }    
 }
 
-export default getDirectoryMap;
+export default encoder;
